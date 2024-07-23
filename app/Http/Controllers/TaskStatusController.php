@@ -26,4 +26,17 @@ class TaskStatusController extends Controller
 
         return view('task-status.create', compact('taskStatus'));
     }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|unique:task_statuses'
+        ]);
+
+        $taskStatus = new TaskStatus();
+        $taskStatus->fill($data);
+        $taskStatus->save();
+
+        return redirect()->route('task-statuses.index');
+    }
 }

@@ -35,8 +35,11 @@ require __DIR__.'/auth.php';
 Route::get('/task_statuses', [TaskStatusController::class, 'index'])
     ->name('task-statuses.index');
 
-Route::get('/task_statuses/{id}', [TaskStatusController::class, 'show'])
-    ->name('task-statuses.show');
-
 Route::get('/task_statuses/create', [TaskStatusController::class, 'create'])
     ->name('task-statuses.create');
+
+Route::post('/task_statuses', [TaskStatusController::class, 'store'])
+    ->name('task-statuses.store');
+
+Route::get('/task_statuses/{id}', [TaskStatusController::class, 'show'])
+    ->name('task-statuses.show');
