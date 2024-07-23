@@ -19,8 +19,6 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('send-mail', [EmailController::class, 'sendWelcomeEmail']);
-
 /*
  *
  *
@@ -33,3 +31,8 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::get('/task_statuses', [TaskStatusController::class, 'index'])
+    ->name('task-statuses.index');
+
+
