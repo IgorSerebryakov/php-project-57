@@ -60,4 +60,15 @@ class TaskStatusController extends Controller
 
         return redirect()->route('task-statuses.index');
     }
+
+    public function destroy($id)
+    {
+        $taskStatus = TaskStatus::query()->find($id);
+
+        if ($taskStatus) {
+            $taskStatus->delete();
+        }
+
+        return redirect()->route('task_statuses.index');
+    }
 }
