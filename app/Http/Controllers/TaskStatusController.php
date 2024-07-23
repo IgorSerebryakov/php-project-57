@@ -30,10 +30,31 @@ class TaskStatusController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|unique:task_statuses'
+            'name' => 'required|unique:task_statuses' // Заменить на общую валидацию
         ]);
 
         $taskStatus = new TaskStatus();
+        $taskStatus->fill($data);
+        $taskStatus->save();
+
+        return redirect()->route('task-statuses.index');
+    }
+
+    public function edit($id)
+    {
+        $taskStatus = TaskStatus::query()->findorfail($id);
+
+        return view('task-status.edit', compact('taskStatus'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $taskStatus = TaskStatus::query()->findOrFail($id);
+
+        $data = $request->validate([
+            'name' => 'required|unique:task_statuses,name,' . $taskStatus->id // Заменить на общую валидацию
+        ]);
+
         $taskStatus->fill($data);
         $taskStatus->save();
 
