@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use \App\Http\Controllers\EmailController;
+use \App\Http\Controllers\TaskStatusController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -35,4 +35,8 @@ require __DIR__.'/auth.php';
 Route::get('/task_statuses', [TaskStatusController::class, 'index'])
     ->name('task-statuses.index');
 
+Route::get('/task_statuses/{id}', [TaskStatusController::class, 'show'])
+    ->name('task-statuses.show');
 
+Route::get('/task_statuses/create', [TaskStatusController::class, 'create'])
+    ->name('task-statuses.create');
