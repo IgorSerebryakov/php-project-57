@@ -37,14 +37,14 @@ class TaskStatusController extends Controller
         $taskStatus->fill($data);
         $taskStatus->save();
 
-        return redirect()->route('task-statuses.index');
+        return redirect()->route('task_statuses.index');
     }
 
     public function edit($id)
     {
         $taskStatus = TaskStatus::query()->findorfail($id);
 
-        return view('task-status.edit', compact('taskStatus'));
+        return view('task_status.edit', compact('taskStatus'));
     }
 
     public function update(Request $request, $id)
@@ -58,7 +58,7 @@ class TaskStatusController extends Controller
         $taskStatus->fill($data);
         $taskStatus->save();
 
-        return redirect()->route('task-statuses.index');
+        return redirect()->route('task_statuses.index');
     }
 
     public function destroy($id)

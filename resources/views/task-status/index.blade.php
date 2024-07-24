@@ -1,7 +1,11 @@
-<h1>Список статусов</h1>
-@foreach($taskStatuses as $status)
-    <h2>{{ $status->name }}</h2>
-    {{ html()->modelForm($status, 'DELETE', route('task_statuses.destroy', $status))->open() }}
-    {{ html()->submit('Удалить') }}
-    {{ html()->closeModelForm() }}
-@endforeach
+@extends('layouts.app')
+
+@section('content')
+    <h1>Список статусов</h1>
+    @foreach($taskStatuses as $status)
+        <h2>{{ $status->name }}</h2>
+        @auth
+            <a href="{{ route('task_statuses.destroy', $status->id) }}" data-confirm="Вы уверены?" data-method="delete" rel="nofollow">Удалить</a>
+        @endauth
+    @endforeach
+@endsection
