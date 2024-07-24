@@ -44,7 +44,7 @@ class TaskStatusController extends Controller
     {
         $taskStatus = TaskStatus::query()->findorfail($id);
 
-        return view('task_status.edit', compact('taskStatus'));
+        return view('task-status.edit', compact('taskStatus'));
     }
 
     public function update(Request $request, $id)
