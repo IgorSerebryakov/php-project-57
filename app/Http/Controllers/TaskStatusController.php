@@ -35,15 +35,20 @@ class TaskStatusController extends Controller
         ]);
 
         if ($validator->fails()) {
-            dd($validator->errors()->keys());
+            $errors = $validator->errors()->all();
+            $errorMessage = str_replace(':model', 'Статус', implode($errors));
+
+            flash($errorMessage)->error();
+            return redirect()->back()->withInput();
         }
 
-        $taskStatus = new TaskStatus();
-        $taskStatus->fill($validator);
 
+        $taskStatus = new TaskStatus();
+        $taskStatus->fill($validator->getData());
         $taskStatus->save();
 
-        flash('Not welcome')->error();
+        flash('Статус успешно создан')->success();
+
         return redirect()->route('task_statuses.index');
     }
 
