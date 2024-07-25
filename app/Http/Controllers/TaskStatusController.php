@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TaskStatus;
 use Illuminate\Console\View\Components\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TaskStatusController extends Controller
 {
@@ -29,14 +30,20 @@ class TaskStatusController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|unique:task_statuses' // Заменить на общую валидацию
         ]);
 
+        if ($validator->fails()) {
+            dd($validator->errors()->keys());
+        }
+
         $taskStatus = new TaskStatus();
-        $taskStatus->fill($data);
+        $taskStatus->fill($validator);
+
         $taskStatus->save();
 
+        flash('Not welcome')->error();
         return redirect()->route('task_statuses.index');
     }
 

@@ -7,6 +7,9 @@
         <meta name="csrf-param" content="_token" />
         <title>{{ config('app.name', 'Laravel') }}</title>
 
+        <!-- Flash -->
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
