@@ -77,8 +77,11 @@ class TaskStatusController extends Controller
     {
         $taskStatus = TaskStatus::query()->find($id);
 
-        if ($taskStatus) {
+        if (in_array($taskStatus->name, ['новый', 'в работе', 'на тестировании', 'завершён'])) {
+            flash(__('flash.task_status.destroy.fail'))->error();
+        } elseif ($taskStatus) {
             $taskStatus->delete();
+            flash(__('flash.task_status.destroy.success'))->success();
         }
 
         return redirect()->route('task_statuses.index');
