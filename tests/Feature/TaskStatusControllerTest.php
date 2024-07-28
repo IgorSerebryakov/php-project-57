@@ -52,8 +52,9 @@ class TaskStatusControllerTest extends TestCase
     public function testCreateNotAllowedForGuest()
     {
         $oldCount = TaskStatus::query()->count();
-        $response = $this->post(route('task_statuses.store'), ['name' => fake()->name()]);
+        $response = $this->get(route('task_statuses.create'));
         $newCount = TaskStatus::query()->count();
         $response->assertForbidden();
+        // дописать?
     }
 }
