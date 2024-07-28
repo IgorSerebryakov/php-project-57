@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use \App\Http\Controllers\TaskStatusController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\CheckAuthenticated;
 
 Route::get('/', function () {
     return view('welcome');
@@ -36,7 +37,8 @@ Route::get('task_statuses', [TaskStatusController::class, 'index'])
     ->name('task_statuses.index');
 
 Route::get('task_statuses/create', [TaskStatusController::class, 'create'])
-    ->name('task_statuses.create');
+    ->name('task_statuses.create')
+    ->middleware([CheckAuthenticated::class]);
 
 Route::post('task_statuses', [TaskStatusController::class, 'store'])
     ->name('task_statuses.store');

@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\TaskStatus;
 use Database\Seeders\TaskStatusSeeder;
+use Illuminate\Console\View\Components\Task;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +16,7 @@ use Tests\TestCase;
 class TaskStatusControllerTest extends TestCase
 {
     use RefreshDatabase;
-    public function testDeleteRandomTaskStatus(): void
+    public function testDestroy(): void
     {
         $taskStatus = TaskStatus::query()->create([
             'name' => fake()->name()
@@ -27,7 +28,7 @@ class TaskStatusControllerTest extends TestCase
         $this->assertEquals($flashMessage, __('flash.task_status.destroy.success'));
     }
 
-    public function testDeleteInitialTaskStatuses(): void
+    public function testNotDestroy(): void
     {
         $this->seed([TaskStatusSeeder::class]);
         $this->assertDatabaseCount('task_statuses', 4);
@@ -48,8 +49,11 @@ class TaskStatusControllerTest extends TestCase
             });
     }
 
-    public function ()
+    public function testCreateNotAllowedForGuest()
     {
-
+        $oldCount = TaskStatus::query()->count();
+        $response = $this->post(route('task_statuses.store'), ['name' => fake()->name()]);
+        $newCount = TaskStatus::query()->count();
+        $response->assertForbidden();
     }
 }
