@@ -3,10 +3,12 @@
 namespace Tests\Feature;
 
 use App\Models\TaskStatus;
+use App\Models\User;
 use Database\Seeders\TaskStatusSeeder;
 use Illuminate\Console\View\Components\Task;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Laracasts\Flash\FlashNotifier;
 use Tests\TestCase;
@@ -51,10 +53,28 @@ class TaskStatusControllerTest extends TestCase
 
     public function testCreateNotAllowedForGuest()
     {
-        $oldCount = TaskStatus::query()->count();
         $response = $this->get(route('task_statuses.create'));
-        $newCount = TaskStatus::query()->count();
-        $response->assertForbidden();
-        // дописать?
+        $response->assertStatus(403);
+    }
+
+    public function testStore()
+    {
+        $randomName = fake()->name();
+        $this->actingAs(User::factory()->create())
+            ->post(route('task_statuses.store'), ['name' => $randomName]);
+        $this->assertDatabaseHas('task_statuses', ['name' => $randomName]);
+    }
+
+    public function testUpdateNotAllowedForGuest()
+    {
+        $oldTaskStatus = TaskStatus::query()->create([
+            'name' => fake()->name()
+        ]);
+        $data = [
+            'name' => 'TaskStatusForUpdateTest'
+        ];
+        $response = $this->patch(route('task_statuses.update', $oldTaskStatus->id), $data);
+        $this->assertDatabaseHas('task_statuses', $oldTaskStatus->toArray());
+        $response->assertStatus(403);
     }
 }
