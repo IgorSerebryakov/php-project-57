@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreTaskStatusRequest;
+use App\Http\Requests\TaskStatusRequest;
 use App\Models\TaskStatus;
 use Illuminate\Console\View\Components\Task;
 use Illuminate\Http\Request;
@@ -29,7 +29,7 @@ class TaskStatusController extends Controller
         return view('task-status.create', compact('taskStatus'));
     }
 
-    public function store(StoreTaskStatusRequest $request)
+    public function store(TaskStatusRequest $request)
     {
         $taskStatus = new TaskStatus();
         $taskStatus->fill($request->validated());
@@ -43,19 +43,14 @@ class TaskStatusController extends Controller
     public function edit($id)
     {
         $taskStatus = TaskStatus::query()->findorfail($id);
-
         return view('task-status.edit', compact('taskStatus'));
     }
 
-    public function update(Request $request, $id)
+    public function update(TaskStatusRequest $request, $id)
     {
         $taskStatus = TaskStatus::query()->findOrFail($id);
 
-        $data = $request->validate([
-            'name' => 'required|unique:task_statuses,name,' . $taskStatus->id // Заменить на общую валидацию
-        ]);
-
-        $taskStatus->fill($data);
+        $taskStatus->fill($request->validated());
         $taskStatus->save();
 
         return redirect()->route('task_statuses.index');
