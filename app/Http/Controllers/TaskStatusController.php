@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTaskStatusRequest;
 use App\Models\TaskStatus;
 use Illuminate\Console\View\Components\Task;
 use Illuminate\Http\Request;
@@ -25,27 +26,13 @@ class TaskStatusController extends Controller
     public function create()
     {
         $taskStatus = new TaskStatus();
-
         return view('task-status.create', compact('taskStatus'));
     }
 
-    public function store(Request $request)
+    public function store(StoreTaskStatusRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:task_statuses' // Заменить на общую валидацию
-        ]);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors()->all();
-            $errorMessage = str_replace(':model', 'Статус', implode($errors));
-
-            flash($errorMessage)->error();
-            return redirect()->back()->withInput();
-        }
-
-
         $taskStatus = new TaskStatus();
-        $taskStatus->fill($validator->getData());
+        $taskStatus->fill($request->validated());
         $taskStatus->save();
 
         flash('Статус успешно создан')->success();
