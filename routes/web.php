@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use \App\Http\Controllers\TaskStatusController;
+use App\Http\Controllers\TaskStatusController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckAuthenticated;
 
@@ -44,3 +45,12 @@ require __DIR__.'/auth.php';
 
 Route::get('task_statuses', [TaskStatusController::class, 'index'])
     ->name('task_statuses.index');
+
+Route::get('tasks', [TaskController::class, 'index'])
+    ->name('tasks.index');
+
+Route::get('tasks/create', [TaskController::class, 'create'])
+    ->name('tasks.create');
+
+Route::post('tasks', [TaskController::class, 'store'])
+    ->name('tasks.store');

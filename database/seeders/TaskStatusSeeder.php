@@ -15,9 +15,11 @@ class TaskStatusSeeder extends Seeder
      */
     public function run(): void
     {
-        TaskStatus::factory()->create(['name' => 'новый']);
-        TaskStatus::factory()->create(['name' => 'в работе']);
-        TaskStatus::factory()->create(['name' => 'на тестировании']);
-        TaskStatus::factory()->create(['name' => 'завершён']);
+        TaskStatus::query()->truncate();
+
+        TaskStatus::factory()->create(['name' => __('seeders.task_status.new')]);
+        TaskStatus::factory()->create(['name' => __('seeders.task_status.at_work')]);
+        TaskStatus::factory()->create(['name' => __('seeders.task_status.in_archive')]);
+        TaskStatus::factory()->create(['name' => __('seeders.task_status.completed')]);
     }
 }

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\TaskStatus;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
@@ -11,8 +14,8 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $task = Task::query()->paginate();
-        return view('task.index', compact('task'));
+        $tasks = Task::query()->paginate();
+        return view('task.index', compact('tasks'));
     }
 
     public function show($id)
@@ -24,10 +27,12 @@ class TaskController extends Controller
     public function create()
     {
         $task = new Task();
-        return view('task.create', compact('task'));
+        dd($taskStatuses = DB::table('task_statuses')->get());
+
+        return view('task.create', compact('task', 'taskStatuses'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request, TaskStatus $status, User $creator)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|unique:tasks|max:255',
@@ -36,7 +41,12 @@ class TaskController extends Controller
         ]);
 
         if ($validator->fails()) {
-
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput();
         }
+
+        dd($task = $creator->tasksCreated()->make());
     }
 }
