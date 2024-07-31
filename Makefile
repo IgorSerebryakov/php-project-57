@@ -36,3 +36,6 @@ lint-fix:
 
 seed-TaskStatus:
 	php artisan db:seed --class=TaskStatusSeeder
+
+seed-User:
+	php artisan db:seed --class=UserSeeder
