@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TaskRequest;
 use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -27,28 +30,28 @@ class TaskController extends Controller
     public function create()
     {
         $task = new Task();
-        dd($taskStatuses = DB::table('task_statuses')->get());
 
-        return view('task.create', compact('task', 'taskStatuses'));
+        $statuses = $this->getSelectParams(new TaskStatus());
+        $users = $this->getSelectParams(new User());
+
+        return view('task.create', compact('task', 'statuses', 'users'));
     }
 
-    public function store(Request $request, TaskStatus $status, User $creator)
+    public function store(TaskRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:tasks|max:255',
-            'description' => 'max:255',
-            'status_id' => 'required'
-        ]);
+        $task = new Task();
 
-        if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+        $task->fill($request->validated());
+        $task->creator()->associate(Auth::user());
+        $task->save();
 
-        dd($task = $creator->tasksCreated()->make());
+        flash(__('flash.task.create.success'));
+
+        return redirect(route('tasks.index'));
     }
 
-
+    private function getSelectParams(Model $model): array
+    {
+        return DB::table($model->getTable())->pluck('name', 'id')->all();
+    }
 }
