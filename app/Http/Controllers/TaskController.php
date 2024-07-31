@@ -54,4 +54,16 @@ class TaskController extends Controller
     {
         return DB::table($model->getTable())->pluck('name', 'id')->all();
     }
+
+    public function edit($id)
+    {
+        $task = Task::query()->findOrFail($id);
+
+        return view('task.edit', compact('task'));
+    }
+
+    public function update(TaskRequest $task, $id)
+    {
+
+    }
 }
