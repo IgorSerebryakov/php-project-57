@@ -59,11 +59,19 @@ class TaskController extends Controller
     {
         $task = Task::query()->findOrFail($id);
 
-        return view('task.edit', compact('task'));
+        $statuses = $this->getSelectParams(new TaskStatus());
+        $users = $this->getSelectParams(new User());
+
+        return view('task.edit', compact('task', 'statuses', 'users'));
     }
 
-    public function update(TaskRequest $task, $id)
+    public function update(TaskRequest $request, $id)
     {
+        $task = Task::query()->findOrFail($id);
 
+        $task->fill($request->validated());
+        $task->save();
+
+        return redirect()->route('tasks.index');
     }
 }
