@@ -72,6 +72,22 @@ class TaskController extends Controller
         $task->fill($request->validated());
         $task->save();
 
+        flash(__('flash.task.update.success'));
+
+        return redirect()->route('tasks.index');
+    }
+
+    public function destroy($id)
+    {
+        $task = Task::query()->findOrFail($id);
+
+        if ($task->creator()->is(Auth::user())) {
+            $task->delete();
+            flash(__('flash.task.destroy.success'))->success();
+        } else {
+            flash(__('flash.task.destroy.fail'))->error();
+        }
+
         return redirect()->route('tasks.index');
     }
 }
