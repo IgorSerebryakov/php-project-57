@@ -21,14 +21,15 @@ class TaskStatusRequest extends FormRequest
      */
     public function rules(): array
     {
-        if ($this->getMethod() === "PATCH") {
-            return [
-                'name' => 'required|unique:task_statuses,name,' . $this->route()->id
-            ];
-        }
-        return [
-            'name' => 'required|unique:task_statuses|max:255'
+        $rules = [
+            'name' => 'required|unique:task_statuses,name,' . $this->route()->id
         ];
+
+        if ($this->getMethod() === "PATCH") {
+            $rules['name'] .= ',name,' . $this->route()->id;
+        }
+
+        return $rules;
     }
 
     public function messages()
