@@ -21,21 +21,18 @@ class TaskRequest extends FormRequest
      */
     public function rules(): array
     {
-        if ($this->getMethod() === 'PATCH') {
-            return [
-                'name' => 'required|max:255|unique:tasks,name,' . $this->route()->id,
-                'description' => 'nullable|max:255',
-                'status_id' => 'required',
-                'assigned_to_id' => 'nullable'
-            ];
-        }
-
-        return [
+        $rules = [
             'name' => 'required|unique:tasks|max:255',
             'description' => 'nullable|max:255',
             'status_id' => 'required',
             'assigned_to_id' => 'nullable'
         ];
+
+        if ($this->getMethod() === 'PATCH') {
+            $rules['name'] .= ',name,' . $this->route()->id;
+        }
+
+        return $rules;
     }
 
     public function messages()
