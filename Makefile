@@ -39,3 +39,6 @@ seed-TaskStatus:
 
 seed-User:
 	php artisan db:seed --class=UserSeeder
+
+seed-Task:
+	php artisan db:seed --class=TaskSeeder
