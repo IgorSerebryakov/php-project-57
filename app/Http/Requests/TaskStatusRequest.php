@@ -25,7 +25,7 @@ class TaskStatusRequest extends FormRequest
             'name' => 'required|unique:task_statuses,name,' . $this->route()->id
         ];
 
-        if ($this->getMethod() === "PATCH") {
+        if ($this->getMethod() === 'PATCH') {
             $rules['name'] .= ',name,' . $this->route()->id;
         }
 

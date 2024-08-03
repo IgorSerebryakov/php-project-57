@@ -7,6 +7,7 @@ use App\Models\TaskStatus;
 use Illuminate\Console\View\Components\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class TaskStatusController extends Controller
@@ -59,8 +60,9 @@ class TaskStatusController extends Controller
     public function destroy($id)
     {
         $taskStatus = TaskStatus::query()->find($id);
+        $existingTaskStatusIds = DB::table('tasks')->pluck('status_id')->all();
 
-        if (in_array($taskStatus->name, ['новый', 'в работе', 'на тестировании', 'завершён'])) {
+        if (in_array($taskStatus->id, $existingTaskStatusIds) ) {
             flash(__('flash.task_status.destroy.fail'))->error();
         } elseif ($taskStatus) {
             $taskStatus->delete();

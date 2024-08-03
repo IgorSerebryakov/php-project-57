@@ -39,6 +39,19 @@ Route::middleware(CheckAuthenticated::class)->group(function () {
     Route::get('task_statuses/{id}/edit', [TaskStatusController::class, 'edit'])->name('task_statuses.edit');
     Route::patch('task_statuses/{id}', [TaskStatusController::class, 'update'])->name('task_statuses.update');
     Route::delete('task_statuses/{id}', [TaskStatusController::class, 'destroy'])->name('task_statuses.destroy');
+
+    Route::get('tasks/create', [TaskController::class, 'create'])
+        ->name('tasks.create');
+    Route::post('tasks', [TaskController::class, 'store'])
+        ->name('tasks.store');
+    Route::get('tasks/{id}', [TaskController::class, 'show'])
+        ->name('tasks.show');
+    Route::get('tasks/{id}/edit', [TaskController::class, 'edit'])
+        ->name('tasks.edit');
+    Route::patch('tasks/{id}', [TaskController::class, 'update'])
+        ->name('tasks.update');
+    Route::delete('tasks/{id}', [TaskController::class, 'destroy'])
+        ->name('tasks.destroy');
 });
 
 require __DIR__.'/auth.php';
@@ -49,20 +62,3 @@ Route::get('task_statuses', [TaskStatusController::class, 'index'])
 Route::get('tasks', [TaskController::class, 'index'])
     ->name('tasks.index');
 
-Route::get('tasks/create', [TaskController::class, 'create'])
-    ->name('tasks.create');
-
-Route::post('tasks', [TaskController::class, 'store'])
-    ->name('tasks.store');
-
-Route::get('tasks/{id}', [TaskController::class, 'show'])
-    ->name('tasks.show');
-
-Route::get('tasks/{id}/edit', [TaskController::class, 'edit'])
-    ->name('tasks.edit');
-
-Route::patch('tasks/{id}', [TaskController::class, 'update'])
-    ->name('tasks.update');
-
-Route::delete('tasks/{id}', [TaskController::class, 'destroy'])
-    ->name('tasks.destroy');
