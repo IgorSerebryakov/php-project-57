@@ -4,7 +4,9 @@ namespace Tests\Feature;
 
 use App\Models\TaskStatus;
 use App\Models\User;
+use Database\Seeders\TaskSeeder;
 use Database\Seeders\TaskStatusSeeder;
+use Database\Seeders\UserSeeder;
 use Illuminate\Console\View\Components\Task;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -30,8 +32,6 @@ class TaskStatusControllerTest extends TestCase
         $this->user = User::factory()->make();
     }
 
-
-
     public function testCreateNotAllowedForGuest()
     {
         $response = $this->get(route('task_statuses.create'));
@@ -40,8 +40,7 @@ class TaskStatusControllerTest extends TestCase
 
     public function testUpdateNotAllowedForGuest()
     {
-        $data = ['name' => 'TaskStatusForUpdateTest'];
-        $response = $this->patch(route('task_statuses.update', $this->taskStatus->id), $data);
+        $response = $this->patch(route('task_statuses.update', $this->taskStatus->id), $this->newTaskStatus->toArray());
         $this->assertDatabaseHas('task_statuses', $this->taskStatus->toArray());
         $response->assertStatus(403);
     }

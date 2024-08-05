@@ -22,7 +22,7 @@ class TaskRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'name' => 'required|unique:tasks|max:255',
+            'name' => 'required|max:255|unique:tasks',
             'description' => 'nullable|max:255',
             'status_id' => 'required',
             'assigned_to_id' => 'nullable'
