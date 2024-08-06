@@ -57,12 +57,16 @@ class LabelController extends Controller
         return redirect(route('labels.index'));
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $label = Label::query()->findOrFail($id);
 
-        $label->delete();
-        flash(__('flash.label.destroy.success'));
+        if ($label->tasks->isEmpty()) {
+            $label->delete();
+            flash(__('flash.label.destroy.success'));
+        } else {
+            flash(__('flash.label.destroy.fail'));
+        }
 
         return redirect(route('labels.index'));
     }
