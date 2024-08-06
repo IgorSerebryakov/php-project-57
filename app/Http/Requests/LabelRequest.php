@@ -36,7 +36,7 @@ class LabelRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.unique' => __('validation.unique', ['model' => 'Метка'])
+            'name.unique' => __('validation.unique', ['model' => 'Метка']) // изменить на Lang
         ];
     }
 }

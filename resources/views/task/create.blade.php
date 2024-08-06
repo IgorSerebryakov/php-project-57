@@ -8,6 +8,10 @@
     {{ html()->input('textarea', 'description') }}
     {{ html()->select('status_id', $statuses) }}
     {{ html()->select('assigned_to_id', ['' => ''] + $users) }}
+    @foreach ($labels as $id => $label)
+        {{ html()->checkbox('label_id[]', false, $id) }}
+        {{ $label }}
+    @endforeach
     {{ html()->submit('Создать') }}
     {{ html()->closeModelForm() }}
     @if ($errors->any())

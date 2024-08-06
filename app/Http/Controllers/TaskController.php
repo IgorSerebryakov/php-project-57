@@ -6,6 +6,7 @@ use App\Http\Requests\TaskRequest;
 use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
+use App\Models\Label;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -33,8 +34,9 @@ class TaskController extends Controller
 
         $statuses = $this->getSelectParams(new TaskStatus());
         $users = $this->getSelectParams(new User());
+        $labels = $this->getSelectParams(new Label());
 
-        return view('task.create', compact('task', 'statuses', 'users'));
+        return view('task.create', compact('task', 'statuses', 'users', 'labels'));
     }
 
     public function store(TaskRequest $request)
@@ -44,6 +46,9 @@ class TaskController extends Controller
         $task->fill($request->validated());
         $task->creator()->associate(Auth::user());
         $task->save();
+
+        $labelIds = $request->input('label_id');
+        $task->labels()->attach($labelIds, ['created_at' => now(), 'updated_at' => now()]);
 
         flash(__('flash.task.create.success'));
 
