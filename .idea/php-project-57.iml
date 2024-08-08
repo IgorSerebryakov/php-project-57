@@ -5,7 +5,6 @@
       <sourceFolder url="file://$MODULE_DIR$/app" isTestSource="false" packagePrefix="App\" />
       <sourceFolder url="file://$MODULE_DIR$/database/factories" isTestSource="false" packagePrefix="Database\Factories\" />
       <sourceFolder url="file://$MODULE_DIR$/database/seeders" isTestSource="false" packagePrefix="Database\Seeders\" />
-      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="Tests\" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/brick/math" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/carbonphp/carbon-doctrine-types" />
@@ -124,6 +123,31 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/breeze" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laracasts/flash" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/laravel-html" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/amp" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/byte-stream" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/dns" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/parallel" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/parser" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/pipeline" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/process" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/serialization" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/socket" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/sync" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/windows-registry" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/daverandom/libdns" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/deprecations" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/kelunik/certificate" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/league/uri" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/league/uri-interfaces" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpdocumentor/reflection-common" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpdocumentor/type-resolver" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpstan/phpdoc-parser" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/revolt/event-loop" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/data-transfer-object" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/laravel-data" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/laravel-package-tools" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/php-structure-discoverer" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

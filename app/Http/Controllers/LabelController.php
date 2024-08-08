@@ -2,72 +2,72 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\LabelDTO;
 use App\Http\Requests\LabelRequest;
 use App\Models\Label;
+use App\Repositories\LabelRepository;
+use App\Services\LabelService;
 use Illuminate\Http\Request;
+use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
 class LabelController extends Controller
 {
+    public function __construct(
+        protected LabelRepository $repository,
+        protected LabelService $service) {}
+
     public function index()
     {
-        $labels = Label::query()->paginate();
+        $labels = LabelRepository::getAll();
         return view('label.index', compact('labels'));
     }
 
     public function show($id)
     {
-        $label = Label::query()->findOrFail($id);
+        $label = LabelRepository::getById($id);
         return view('label.show', compact('label'));
     }
 
     public function create()
     {
-        $label = new Label();
-        return view('label.create', compact('label'));
+        return view('label.create', ['label' => new Label()]);
     }
 
     public function store(LabelRequest $request)
     {
-        $label = new Label();
+        $labelDTO = new LabelDTO(
+            id: null,
+            name: $request->name,
+            description: $request->description
+        );
 
-        $label->fill($request->validated());
-        $label->save();
-
-        flash(__('flash.label.create.success'));
-
+        $this->service->createOrUpdate($labelDTO);
         return redirect(route('labels.index'));
     }
 
     public function edit($id)
     {
-        $label = Label::query()->findOrFail($id);
-
+        $label = LabelRepository::getById($id);
         return view('label.edit', compact('label'));
     }
 
-    public function update(LabelRequest $request, $id)
+
+    public function update(LabelRequest $request)
     {
-        $label = Label::query()->findOrFail($id);
+        $labelDTO = new LabelDTO(
+            id: $request->id,
+            name: $request->name,
+            description: $request->description
+        );
 
-        $label->fill($request->validated());
-        $label->save();
-
-        flash(__('flash.label.update.success'));
-
+        $this->service->createOrUpdate($labelDTO);
         return redirect(route('labels.index'));
     }
 
     public function destroy($id)
     {
-        $label = Label::query()->findOrFail($id);
-
-        if ($label->tasks->isEmpty()) {
-            $label->delete();
-            flash(__('flash.label.destroy.success'));
-        } else {
-            flash(__('flash.label.destroy.fail'));
-        }
-
+        $label = LabelRepository::getById($id);
+        $this->service->destroy($label);
         return redirect(route('labels.index'));
     }
 }
