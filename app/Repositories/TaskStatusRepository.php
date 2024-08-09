@@ -7,12 +7,11 @@ use Database\Seeders\TaskStatusSeeder;
 
 class TaskStatusRepository
 {
-    protected TaskStatus $model;
+    public function __construct(
+        public TaskStatus $model
+    )
+    {}
 
-    public function __construct()
-    {
-        $this->model = new TaskStatus();
-    }
     public function getAll()
     {
         return $this->model->query()
