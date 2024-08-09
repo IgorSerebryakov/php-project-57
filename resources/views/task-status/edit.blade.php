@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    {{ html()->modelForm($taskStatus, 'PATCH', route('task_statuses.update', $taskStatus))->open() }}
+    {{ html()->modelForm($status, 'PATCH', route('task_statuses.update', $status))->open() }}
     {{ html()->label('Имя', 'name') }}
     {{ html()->input('text', 'name') }}
     {{ html()->submit('Обновить') }}

@@ -46,16 +46,18 @@ class TaskStatusController extends Controller
 
     public function edit($id)
     {
-        $status = TaskStatus::query()->findorfail($id);
+        $status = $this->statusRepository->getById($id);
         return view('task-status.edit', compact('status'));
     }
 
-    public function update(TaskStatusRequest $request, $id)
+    public function update(TaskStatusRequest $request)
     {
-        $status = TaskStatus::query()->findOrFail($id);
+        $statusDTO = new TaskStatusDTO (
+            id: $request->id,
+            name: $request->name
+        );
 
-        $status->fill($request->validated());
-        $status->save();
+        $this->statusService->createOrUpdate($statusDTO);
 
         return redirect()->route('task_statuses.index');
     }
@@ -63,7 +65,6 @@ class TaskStatusController extends Controller
     public function destroy($id)
     {
         $status = $this->statusRepository->getById($id);
-
         $this->statusService->destroy($status);
 
         return redirect()->route('task_statuses.index');
