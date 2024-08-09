@@ -5,12 +5,12 @@ use App\Models\Label;
 
 class LabelRepository
 {
-    public static function getAll()
+    public function getAll()
     {
         return Label::query()->paginate();
     }
 
-    public static function getById(?int $id)
+    public function getById(?int $id)
     {
         return Label::query()->find($id);
     }

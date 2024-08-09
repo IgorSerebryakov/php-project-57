@@ -4,70 +4,67 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TaskStatusRequest;
 use App\Models\TaskStatus;
-use Illuminate\Console\View\Components\Task;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
+use App\Repositories\TaskStatusRepository;
+use App\Services\TaskStatusService;
+use App\DTO\TaskStatusDTO;
 
 class TaskStatusController extends Controller
 {
+    public function __construct(
+        protected TaskStatusRepository $statusRepository,
+        protected TaskStatusService $statusService
+    ) {}
+
     public function index()
     {
-        $taskStatuses = TaskStatus::query()->paginate();
-        return view('task-status.index', compact('taskStatuses'));
+        $statuses = $this->statusRepository->getAll();
+        return view('task-status.index', compact('statuses'));
     }
 
     public function show($id)
     {
-        $taskStatus = TaskStatus::query()->findOrFail($id);
-        return view('task-status.show', compact('taskStatus'));
+        $status = $this->statusRepository->getById($id);
+        return view('task-status.show', compact('status'));
     }
 
     public function create()
     {
-        $taskStatus = new TaskStatus();
-        return view('task-status.create', compact('taskStatus'));
+        return view('task-status.create', ['taskStatus' => new TaskStatus()]);
     }
 
     public function store(TaskStatusRequest $request)
     {
-        $taskStatus = new TaskStatus();
-        $taskStatus->fill($request->validated());
-        $taskStatus->save();
+        $statusDTO = new TaskStatusDTO (
+            id: null,
+            name: $request->name
+        );
 
-        flash(__('flash.task_status.create.success'))->success();
+        $this->statusService->createOrUpdate($statusDTO);
 
         return redirect()->route('task_statuses.index');
     }
 
     public function edit($id)
     {
-        $taskStatus = TaskStatus::query()->findorfail($id);
-        return view('task-status.edit', compact('taskStatus'));
+        $status = TaskStatus::query()->findorfail($id);
+        return view('task-status.edit', compact('status'));
     }
 
     public function update(TaskStatusRequest $request, $id)
     {
-        $taskStatus = TaskStatus::query()->findOrFail($id);
+        $status = TaskStatus::query()->findOrFail($id);
 
-        $taskStatus->fill($request->validated());
-        $taskStatus->save();
+        $status->fill($request->validated());
+        $status->save();
 
         return redirect()->route('task_statuses.index');
     }
 
     public function destroy($id)
     {
-        $taskStatus = TaskStatus::query()->find($id);
-        $existingTaskStatusIds = DB::table('tasks')->pluck('status_id')->all();
+        $status = $this->statusRepository->getById($id);
 
-        if (in_array($taskStatus->id, $existingTaskStatusIds) ) {
-            flash(__('flash.task_status.destroy.fail'))->error();
-        } elseif ($taskStatus) {
-            $taskStatus->delete();
-            flash(__('flash.task_status.destroy.success'))->success();
-        }
+        $this->statusService->destroy($status);
 
         return redirect()->route('task_statuses.index');
     }

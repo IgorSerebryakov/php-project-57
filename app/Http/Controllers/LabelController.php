@@ -14,17 +14,18 @@ class LabelController extends Controller
 {
     public function __construct(
         protected LabelRepository $repository,
-        protected LabelService $service) {}
+        protected LabelService $service
+    ) {}
 
     public function index()
     {
-        $labels = LabelRepository::getAll();
+        $labels = $this->repository->getAll();
         return view('label.index', compact('labels'));
     }
 
     public function show($id)
     {
-        $label = LabelRepository::getById($id);
+        $label = $this->repository->getById($id);
         return view('label.show', compact('label'));
     }
 
@@ -47,7 +48,7 @@ class LabelController extends Controller
 
     public function edit($id)
     {
-        $label = LabelRepository::getById($id);
+        $label = $this->repository->getById($id);
         return view('label.edit', compact('label'));
     }
 
@@ -66,7 +67,7 @@ class LabelController extends Controller
 
     public function destroy($id)
     {
-        $label = LabelRepository::getById($id);
+        $label = $this->repository->getById($id);
         $this->service->destroy($label);
         return redirect(route('labels.index'));
     }

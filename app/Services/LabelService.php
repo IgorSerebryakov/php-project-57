@@ -14,13 +14,13 @@ class LabelService
 
     public function createOrUpdate(LabelDTO $dto): Label
     {
-        $label = LabelRepository::getById($dto->id);
+        $label = $this->repository->getById($dto->id);
 
         if (empty($label)) {
             $label = new Label();
-            flash(__('flash.label.create.success'));
+            flash(__('flash.label.create.success'))->success();
         } else {
-            flash(__('flash.label.update.success'));
+            flash(__('flash.label.update.success'))->success();
         }
 
         $label->fill($dto->toArray());
