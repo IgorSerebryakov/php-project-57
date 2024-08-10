@@ -19,7 +19,7 @@ class TaskService
         public LabelRepository $labelRepository
     ) {}
 
-    public function createOrUpdate(TaskDTO $dto): void
+    public function create(TaskDTO $dto): void
     {
         $task = new Task();
         $task->fill($dto->toArray());

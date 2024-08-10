@@ -40,5 +40,10 @@ seed-TaskStatus:
 seed-User:
 	php artisan db:seed --class=UserSeeder
 
+seed-Label:
+	php artisan db:seed --class=LabelSeeder
+
 seed-Task:
 	php artisan db:seed --class=TaskSeeder
+
+seed: seed-TaskStatus seed-User seed-Label seed-Task
