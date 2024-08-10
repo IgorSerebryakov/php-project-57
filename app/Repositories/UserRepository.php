@@ -8,8 +8,7 @@ class UserRepository implements SelectParamsProvider
 {
     public function __construct(
         public User $model
-    )
-    {}
+    ) {}
 
     public function create()
     {

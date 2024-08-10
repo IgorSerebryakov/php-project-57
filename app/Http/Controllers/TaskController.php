@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\TaskDTO;
 use App\Http\Requests\TaskRequest;
 use App\Models\Task;
 use App\Models\TaskStatus;
@@ -50,43 +51,41 @@ class TaskController extends Controller
 
     public function store(TaskRequest $request)
     {
-        $task = new Task();
+        $taskDTO = new TaskDTO (
+            id: null,
+            name: $request->name,
+            description: $request->description,
+            status_id: $request->status_id,
+            assigned_to_id: $request->assigned_to_id,
+            label_id: $request->label_id
+        );
 
-        $task->fill($request->validated());
-        $task->creator()->associate(Auth::user());
-        $task->save();
-
-        $labelIds = $request->input('label_id');
-        $task->labels()->attach($labelIds, ['created_at' => now(), 'updated_at' => now()]);
-
-        flash(__('flash.task.create.success'));
+        $this->service->create($taskDTO);
 
         return redirect(route('tasks.index'));
     }
 
-    private function getSelectParams(Model $model): array
-    {
-        return DB::table($model->getTable())->pluck('name', 'id')->all();
-    }
-
     public function edit($id)
     {
-        $task = Task::query()->findOrFail($id);
-
-        $statuses = $this->getSelectParams(new TaskStatus());
-        $users = $this->getSelectParams(new User());
-
-        return view('task.edit', compact('task', 'statuses', 'users'));
+        return view('task.edit', [
+            'task' => $this->taskRepository->getById($id),
+            'statuses' => $this->service->getSelectParams('statuses'),
+            'users' => $this->service->getSelectParams('users')
+        ]);
     }
 
     public function update(TaskRequest $request, $id)
     {
-        $task = Task::query()->findOrFail($id);
+        $taskDTO = new TaskDTO (
+            id: $request->id,
+            name: $request->name,
+            description: $request->description,
+            status_id: $request->status_id,
+            assigned_to_id: $request->assigned_to_id,
+            label_id: $request->label_id
+        );
 
-        $task->fill($request->validated());
-        $task->save();
-
-        flash(__('flash.task.update.success'));
+        $this->service->update($taskDTO);
 
         return redirect()->route('tasks.index');
     }

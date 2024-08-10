@@ -2,10 +2,13 @@
 
 namespace App\Services;
 
+use App\DTO\TaskDTO;
+use App\Models\Task;
 use App\Repositories\LabelRepository;
 use App\Repositories\TaskRepository;
 use App\Repositories\TaskStatusRepository;
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Auth;
 
 class TaskService
 {
@@ -15,6 +18,29 @@ class TaskService
         public UserRepository $userRepository,
         public LabelRepository $labelRepository
     ) {}
+
+    public function createOrUpdate(TaskDTO $dto): void
+    {
+        $task = new Task();
+        $task->fill($dto->toArray());
+        $task->creator()->associate(Auth::user());
+        $task->save();
+        $task->labels()->attach($dto->label_id, [
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        flash(__('flash.task.create.success'));
+    }
+
+    public function update(TaskDTO $dto): void
+    {
+        $task = $this->taskRepository->getById($dto->id);
+        $task->fill($dto->toArray());
+        $task->save();
+
+        flash(__('flash.task.update.success'));
+    }
 
     public function getSelectParams(string $entity): array
     {
@@ -29,4 +55,6 @@ class TaskService
 
         return $mapping[$entity]();
     }
+
+
 }

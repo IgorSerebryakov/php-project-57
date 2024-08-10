@@ -6,11 +6,12 @@ use Spatie\LaravelData\Data;
 class TaskDTO extends Data
 {
     public function __construct(
-        public ?int $id,
-        public string $name,
+        public ?int    $id,
+        public string  $name,
         public ?string $description,
-        public int $statusId,
-        public int $createdById,
-        public ?int $assignedToId
+        public int     $status_id,
+        public ?int    $assigned_to_id,
+        public array   $label_id
     ) {}
 }
+
