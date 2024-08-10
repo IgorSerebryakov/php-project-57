@@ -3,9 +3,10 @@
 namespace App\Repositories;
 
 use App\Models\TaskStatus;
+use App\Services\SelectParamsProvider;
 use Database\Seeders\TaskStatusSeeder;
 
-class TaskStatusRepository
+class TaskStatusRepository implements SelectParamsProvider
 {
     public function __construct(
         public TaskStatus $model
@@ -22,5 +23,12 @@ class TaskStatusRepository
     {
         return $this->model->query()
             ->find($id);
+    }
+
+    public function getSelectParams()
+    {
+        return $this->model->query()
+            ->pluck('name', 'id')
+            ->all();
     }
 }

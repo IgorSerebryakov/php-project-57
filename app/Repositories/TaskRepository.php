@@ -1,9 +1,8 @@
 <?php
 
 namespace App\Repositories;
-
-
 use App\Models\Task;
+use App\Services\SelectParamsProvider;
 
 class TaskRepository
 {
@@ -11,6 +10,17 @@ class TaskRepository
         public Task $model
     ) {}
 
+    public function getAll()
+    {
+        return $this->model->query()
+            ->paginate();
+    }
+
+    public function getById(?int $id)
+    {
+        return $this->model->query()
+            ->find($id);
+    }
 
     public function getAllIds()
     {

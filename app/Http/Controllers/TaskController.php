@@ -7,6 +7,11 @@ use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
 use App\Models\Label;
+use App\Repositories\LabelRepository;
+use App\Repositories\TaskRepository;
+use App\Repositories\TaskStatusRepository;
+use App\Repositories\UserRepository;
+use App\Services\TaskService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -16,27 +21,31 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
+    public function __construct(
+        protected TaskRepository $taskRepository,
+        protected TaskService $service
+    ) {}
+
     public function index()
     {
-        $tasks = Task::query()->paginate();
+        $tasks = $this->taskRepository->getAll();
         return view('task.index', compact('tasks'));
     }
 
     public function show($id)
     {
-        $task = Task::query()->findOrFail($id);
+        $task = $this->taskRepository->getById($id);
         return view('task.show', compact('task'));
     }
 
     public function create()
     {
-        $task = new Task();
-
-        $statuses = $this->getSelectParams(new TaskStatus());
-        $users = $this->getSelectParams(new User());
-        $labels = $this->getSelectParams(new Label());
-
-        return view('task.create', compact('task', 'statuses', 'users', 'labels'));
+        return view('task.create', [
+            'task' => new Task(),
+            'statuses' => $this->service->getSelectParams('statuses'),
+            'users' => $this->service->getSelectParams('users'),
+            'labels' => $this->service->getSelectParams('labels')
+        ]);
     }
 
     public function store(TaskRequest $request)

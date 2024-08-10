@@ -2,8 +2,9 @@
 
 namespace App\Repositories;
 use App\Models\Label;
+use App\Services\SelectParamsProvider;
 
-class LabelRepository
+class LabelRepository implements SelectParamsProvider
 {
     public function __construct(
         public Label $model
@@ -17,5 +18,12 @@ class LabelRepository
     public function getById(?int $id)
     {
         return $this->model->query()->find($id);
+    }
+
+    public function getSelectParams()
+    {
+        return $this->model->query()
+            ->pluck('name', 'id')
+            ->all();
     }
 }
