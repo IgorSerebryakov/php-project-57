@@ -4,10 +4,11 @@ namespace Tests\Feature;
 
 use App\Models\TaskStatus;
 use App\Models\User;
+use App\Models\Task;
+use Database\Factories\TaskFactory;
 use Database\Seeders\TaskSeeder;
 use Database\Seeders\TaskStatusSeeder;
 use Database\Seeders\UserSeeder;
-use Illuminate\Console\View\Components\Task;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +30,7 @@ class TaskStatusControllerTest extends TestCase
 
         $this->taskStatus = TaskStatus::factory()->create();
         $this->newTaskStatus = TaskStatus::factory()->make();
-        $this->user = User::factory()->make();
+        $this->user = User::factory()->create();
     }
 
     public function testCreateNotAllowedForGuest()
@@ -54,23 +55,14 @@ class TaskStatusControllerTest extends TestCase
         $this->assertDatabaseHas('task_statuses', $this->newTaskStatus->toArray());
     }
 
-    public function testNotDestroy(): void // with mistakes, need refactoring
+    public function testNotDestroy(): void
     {
-        $this->seed([TaskStatusSeeder::class]);
-        DB::table('task_statuses')
-            ->whereIn('name', [
-                __('seeders.task_status.new'),
-                __('seeders.task_status.at_work'),
-                __('seeders.task_status.in_archive'),
-                __('seeders.task_status.completed')
-            ])
-            ->get()
-            ->each(function ($taskStatus) {
-                $response = $this->actingAs($this->user)->delete(route('task_statuses.destroy', $taskStatus->id));
-                $response->assertRedirect(route('task_statuses.index'));
-                $this->assertDatabaseHas('task_statuses', ['id' => $taskStatus->id]);
-                $this->assertFlashMessage(__('flash.task_status.destroy.fail'));
-            });
+        $task = Task::factory()->create();
+        $this->assertEquals($this->taskStatus->id, $task->status_id);
+        $response = $this->actingAs($this->user)->delete(route('task_statuses.destroy', $this->taskStatus->id));
+        $response->assertRedirect(route('task_statuses.index'));
+        $this->assertDatabaseHas('task_statuses', ['id' => $this->taskStatus->id]);
+        $this->assertFlashMessage(__('flash.task_status.destroy.fail'));
     }
 
     public function testDestroy(): void

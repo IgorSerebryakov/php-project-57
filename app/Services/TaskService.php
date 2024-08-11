@@ -42,6 +42,16 @@ class TaskService
         flash(__('flash.task.update.success'));
     }
 
+    public function destroy(Task $task): void
+    {
+        if ($task->creator()->is(Auth::user())) {
+            $task->delete();
+            flash(__('flash.task.destroy.success'))->success();
+        } else {
+            flash(__('flash.task.destroy.fail'))->error();
+        }
+    }
+
     public function getSelectParams(string $entity): array
     {
         $mapping = [
@@ -55,6 +65,4 @@ class TaskService
 
         return $mapping[$entity]();
     }
-
-
 }

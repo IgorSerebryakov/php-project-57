@@ -5,19 +5,8 @@ namespace App\Http\Controllers;
 use App\DTO\TaskDTO;
 use App\Http\Requests\TaskRequest;
 use App\Models\Task;
-use App\Models\TaskStatus;
-use App\Models\User;
-use App\Models\Label;
-use App\Repositories\LabelRepository;
 use App\Repositories\TaskRepository;
-use App\Repositories\TaskStatusRepository;
-use App\Repositories\UserRepository;
 use App\Services\TaskService;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\Request;
 
 
 class TaskController extends Controller
@@ -74,7 +63,7 @@ class TaskController extends Controller
         ]);
     }
 
-    public function update(TaskRequest $request, $id)
+    public function update(TaskRequest $request)
     {
         $taskDTO = new TaskDTO (
             id: $request->id,
@@ -94,12 +83,7 @@ class TaskController extends Controller
     {
         $task = Task::query()->findOrFail($id);
 
-        if ($task->creator()->is(Auth::user())) {
-            $task->delete();
-            flash(__('flash.task.destroy.success'))->success();
-        } else {
-            flash(__('flash.task.destroy.fail'))->error();
-        }
+        $this->service->destroy($task);
 
         return redirect()->route('tasks.index');
     }
