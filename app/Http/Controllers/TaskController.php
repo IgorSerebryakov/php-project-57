@@ -59,7 +59,9 @@ class TaskController extends Controller
         return view('task.edit', [
             'task' => $this->taskRepository->getById($id),
             'statuses' => $this->service->getSelectParams('statuses'),
-            'users' => $this->service->getSelectParams('users')
+            'users' => $this->service->getSelectParams('users'),
+            'labels' => $this->service->getSelectParams('labels'),
+            'taskLabels' => $this->taskRepository->getLabelIdsById($id)
         ]);
     }
 

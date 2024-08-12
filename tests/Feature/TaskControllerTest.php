@@ -53,7 +53,7 @@ class TaskControllerTest extends TestCase
         $newTaskArray = array_filter($this->newTask->toArray(), function ($key) {
             return $key != 'created_by_id';
         }, ARRAY_FILTER_USE_KEY);
-
+        dd($this->task);
         $response = $this->actingAs($this->user)
             ->patch(route('tasks.update', $this->task->id), $newTaskArray);
         $response->assertSessionHasNoErrors();

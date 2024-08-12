@@ -28,4 +28,13 @@ class TaskRepository
             ->pluck('status_id')
             ->all();
     }
+
+    public function getLabelIdsById(?int $id): array
+    {
+        return $this->getById($id)
+            ->labels()
+            ->where('task_id', $id)
+            ->pluck('label_id')
+            ->toArray();
+    }
 }
