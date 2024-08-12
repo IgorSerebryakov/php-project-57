@@ -29,11 +29,10 @@ class TaskRepository
             ->all();
     }
 
-    public function getLabelIdsById(?int $id): array
+    public function getLabelIdsById(?int $id)
     {
         return $this->getById($id)
             ->labels()
-            ->where('task_id', $id)
             ->pluck('label_id')
             ->toArray();
     }

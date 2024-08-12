@@ -16,24 +16,36 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
-
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
+        <!-- Page Heading -->
+        <header class="fixed w-full">
+            <nav class="bg-white border-gray-200 py-2.5 dark:bg-black shadow-md">
+                <div class="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
+                    <a class="navbar-brand" href="#">Панель навигации</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+                            aria-expanded="false" aria-label="Переключатель навигации">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div class="navbar-nav">
+                            <a class="nav-link active" aria-current="page" href="#">Главная</a>
+                            <a class="nav-link" href="#">Рекомендуемые</a>
+                            <a class="nav-link" href="#">Цена</a>
+                            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Отключенная</a>
+                        </div>
                     </div>
-                </header>
-            @endisset
+                </div>
+            </nav>
+        </header>
 
-            <!-- Page Content -->
-            <main class="text-center">
-                @yield('content')
-            </main>
-        </div>
+        @include('layouts.navigation')
+
+        <!-- Page Content -->
+        <main class="text-center">
+            @yield('content')
+        </main>
     </body>
 </html>
