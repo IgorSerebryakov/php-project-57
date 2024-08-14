@@ -3,6 +3,7 @@
 namespace App\Repositories;
 use App\Models\Task;
 use App\Services\SelectParamsProvider;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class TaskRepository
 {

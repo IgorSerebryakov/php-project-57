@@ -18,8 +18,9 @@ class TaskController extends Controller
 
     public function index()
     {
-        $tasks = $this->taskRepository->getAll();
-        return view('task.index', compact('tasks'));
+        return view('task.index', [
+            'tasks' =>  $this->taskRepository->getAll()
+        ]);
     }
 
     public function show($id)

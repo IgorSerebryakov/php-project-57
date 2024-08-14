@@ -20,8 +20,8 @@
                     <tbody>
                         @foreach($tasks as $task)
                             <tr>
-                                <th scope="row">{{ $task->id }}</th>
-
+                                <td>{{ $task->id }}</td>
+                                <td>{{ $task->status->name }}</td>
                             </tr>
                         @endforeach
                     </tbody>
