@@ -21,22 +21,12 @@
     <body class="font-sans antialiased">
         <!-- Page Heading -->
         <header class="fixed w-full">
-            <nav class="bg-white border-gray-200 py-2.5 dark:bg-black shadow-md">
+            <nav class="bg-white border-gray-200 py-4 dark:bg-gray-900 shadow-md">
                 <div class="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
-                    <a class="flex items-center" href="https://php-task-manager-ru.onrender.com">
+                    <a class="flex items-center" href="/">
                         <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Менеджер задач</span>
                     </a>
-                    <div class="flex items-center lg:order-2">
-                        <a href="#"
-                           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2"
-                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            Выход
-                        </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                    </div>
-                    <div class="items-center justify-between hidden w-full lg:flex lg:w-auto lg:order-1">
+                    <div class="items-center justify-between w-full lg:flex lg:w-auto lg:order-1">
                         <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                             <li>
                                 <a class="block py-2 pt-3 pr-4 text-gray-700 hover:text-blue-700 lg:p-0" href="/tasks">Задачи</a>
@@ -49,13 +39,20 @@
                             </li>
                         </ul>
                     </div>
+                    <div class="flex items-center lg:order-2">
+                        <a href="#"
+                           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2"
+                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            Выход
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </div>
                 </div>
             </nav>
         </header>
-        @include('layouts.navigation')
         <!-- Page Content -->
-        <main class="text-center">
-            @yield('content')
-        </main>
+        @yield('content')
     </body>
 </html>
