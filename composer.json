@@ -12,7 +12,8 @@
         "sentry/sentry-laravel": "^4.7",
         "spatie/data-transfer-object": "^3.9",
         "spatie/laravel-data": "^4.7",
-        "spatie/laravel-html": "^3.11"
+        "spatie/laravel-html": "^3.11",
+        "spatie/laravel-query-builder": "^6.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

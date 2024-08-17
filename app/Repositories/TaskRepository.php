@@ -4,6 +4,8 @@ namespace App\Repositories;
 use App\Models\Task;
 use App\Services\SelectParamsProvider;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskRepository
 {
@@ -36,5 +38,16 @@ class TaskRepository
             ->labels()
             ->pluck('label_id')
             ->toArray();
+    }
+
+    public function getAllWithFilter()
+    {
+        return QueryBuilder::for(Task::class)
+            ->allowedFilters([
+                AllowedFilter::exact('status_id'),
+                AllowedFilter::exact('created_by_id'),
+                AllowedFilter::exact('assigned_to_id')
+            ])
+            ->paginate();
     }
 }

@@ -150,6 +150,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/php-structure-discoverer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpdocumentor/reflection" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpdocumentor/reflection-docblock" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/laravel-query-builder" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
