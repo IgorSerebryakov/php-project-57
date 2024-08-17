@@ -7,6 +7,7 @@ use App\Http\Requests\TaskRequest;
 use App\Models\Task;
 use App\Repositories\TaskRepository;
 use App\Services\TaskService;
+use Symfony\Component\HttpFoundation\Request;
 
 
 class TaskController extends Controller
@@ -16,12 +17,14 @@ class TaskController extends Controller
         protected TaskService $service
     ) {}
 
-    public function index()
+    public function index(Request $request)
     {
+        dd($request);
         return view('task.index', [
             'tasks' =>  $this->taskRepository->getAllWithFilter(),
             'statuses' => $this->service->getSelectParams('statuses'),
-            'creators' => $this->taskRepository->getAllCreators()
+            'creators' => $this->taskRepository->getAllCreators(),
+            'assigners' => $this->taskRepository->getAllAssigners()
         ]);
     }
 

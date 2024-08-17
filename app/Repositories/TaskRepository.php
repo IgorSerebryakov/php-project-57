@@ -67,4 +67,20 @@ class TaskRepository
 
         return $result;
     }
+
+    public function getAllAssigners()
+    {
+        $users = $this->userRepository->getAll()->items();
+
+        $assigners = array_filter($users, function ($user) {
+            return $user->tasksAssigned()->count() > 0;
+        });
+
+        $result = [];
+        foreach ($assigners as $assigner) {
+            $result[$assigner->id] = $assigner->name;
+        }
+
+        return $result;
+    }
 }

@@ -5,12 +5,12 @@
         <div class="grid max-w-screen-xl px-3 pt-20 pb-8 mx-auto lg:gap-8 lg:grid-cols-12 lg:pt-28 lg:py-16">
             <div class="grid col-span-full text-white">
                 <p class="h1 mb-4">Задачи</p>
-                <div>
+                <div class="w-full flex items-center">
                     {{ html()->modelForm($tasks, 'GET', route('tasks.index'))->open() }}
-                    <div class="flex text-green-600">
-                        {{ html()->select('filter[status_id]', ['' => 'Статус'] + $statuses) }}
+                    <div class="flex text-black">
+                        {{ html()->select('filter[status_id]', ['' => 'Статус'] + $statuses, old('status_id')) }}
                         {{ html()->select('filter[created_by_id]', ['' => 'Автор'] + $creators) }}
-{{--                        {{ html()->select('filter[assigned_to_id]'), ['' => 'Исполнитель'] + $assigners }}--}}
+                        {{ html()->select('filter[assigned_to_id]', ['' => 'Исполнитель'] + $assigners) }}
                         <div class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded">
                             {{ html()->submit('Применить') }}
                             {{ html()->closeModelForm() }}
@@ -52,6 +52,7 @@
             </div>
         </div>
     </section>
+    @dd(old($statuses[1]))
 @endsection
 
 
