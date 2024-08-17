@@ -7,8 +7,14 @@ use App\Services\SelectParamsProvider;
 class UserRepository implements SelectParamsProvider
 {
     public function __construct(
-        public User $model
+        public User $model,
     ) {}
+
+    public function getAll()
+    {
+        return $this->model->query()
+            ->paginate();
+    }
 
     public function create()
     {

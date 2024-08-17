@@ -1,19 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="bg-black dark:bg-gray-900">
-        <div class="max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:pt-28 lg:py-16">
-            <div class="text-gray-800 dark:text-white">
-                <h1 class="mb-5 text-2xl font-bold">Задачи</h1>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown button
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
+    <section class="bg-black dark:bg-gray-900">
+        <div class="grid max-w-screen-xl px-3 pt-20 pb-8 mx-auto lg:gap-8 lg:grid-cols-12 lg:pt-28 lg:py-16">
+            <div class="grid col-span-full text-white">
+                <p class="h1 mb-4">Задачи</p>
+                <div>
+                    {{ html()->modelForm($tasks, 'GET', route('tasks.index'))->open() }}
+                    <div class="flex text-green-600">
+                        {{ html()->select('filter[status_id]', ['' => 'Статус'] + $statuses) }}
+                        {{ html()->select('filter[created_by_id]', ['' => 'Автор'] + $creators) }}
+{{--                        {{ html()->select('filter[assigned_to_id]'), ['' => 'Исполнитель'] + $assigners }}--}}
+                        <div class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded">
+                            {{ html()->submit('Применить') }}
+                            {{ html()->closeModelForm() }}
+                        </div>
+                    </div>
                 </div>
                 <table class="table mt-4 w-full rounded-lg shadow-md dark:bg-gray-900">
                     <thead>
@@ -49,7 +51,7 @@
                 </nav>
             </div>
         </div>
-    </div>
+    </section>
 @endsection
 
 

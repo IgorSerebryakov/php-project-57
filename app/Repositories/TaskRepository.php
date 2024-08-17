@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 use App\Models\Task;
+use App\Models\User;
 use App\Services\SelectParamsProvider;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -10,7 +11,8 @@ use Spatie\QueryBuilder\QueryBuilder;
 class TaskRepository
 {
     public function __construct(
-        public Task $model
+        public Task $model,
+        public UserRepository $userRepository
     ) {}
 
     public function getAll()
@@ -49,5 +51,20 @@ class TaskRepository
                 AllowedFilter::exact('assigned_to_id')
             ])
             ->paginate();
+    }
+    public function getAllCreators()
+    {
+        $users = $this->userRepository->getAll()->items();
+
+        $creators = array_filter ($users, function ($user) {
+            return $user->tasksCreated()->count() > 0;
+        });
+
+        $result = [];
+        foreach ($creators as $creator) {
+            $result[$creator->id] = $creator->name;
+        }
+
+        return $result;
     }
 }

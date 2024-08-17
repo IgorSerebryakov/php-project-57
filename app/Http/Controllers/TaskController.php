@@ -19,7 +19,9 @@ class TaskController extends Controller
     public function index()
     {
         return view('task.index', [
-            'tasks' =>  $this->taskRepository->getAllWithFilter()
+            'tasks' =>  $this->taskRepository->getAllWithFilter(),
+            'statuses' => $this->service->getSelectParams('statuses'),
+            'creators' => $this->taskRepository->getAllCreators()
         ]);
     }
 

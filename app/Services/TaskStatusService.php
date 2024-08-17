@@ -11,7 +11,7 @@ class TaskStatusService
 {
     public function __construct(
         public TaskStatusRepository $taskStatusRepository,
-        public TaskRepository $taskRepository
+        public TaskRepository $taskRepository,
     ) {}
 
     public function createOrUpdate(TaskStatusDTO $dto): TaskStatus
