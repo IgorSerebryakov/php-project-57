@@ -1,17 +1,10 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Modules\Base\Repositories;
 
-use App\Models\TaskStatus;
-use App\Services\SelectParamsProvider;
-use Database\Seeders\TaskStatusSeeder;
-
-class TaskStatusRepository implements SelectParamsProvider
+class BaseRepository
 {
-    public function __construct(
-        public TaskStatus $model
-    )
-    {}
+    protected $model;
 
     public function getAll()
     {
@@ -25,7 +18,7 @@ class TaskStatusRepository implements SelectParamsProvider
             ->find($id);
     }
 
-    public function getSelectParams()
+    public function getNameIdPairs()
     {
         return $this->model->query()
             ->pluck('name', 'id')

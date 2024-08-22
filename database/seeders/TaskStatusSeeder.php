@@ -2,11 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\TaskStatus;
-use Illuminate\Console\View\Components\Task;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Modules\TaskStatus\Models\TaskStatus;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class TaskStatusSeeder extends Seeder
 {

@@ -1,13 +1,16 @@
 <?php
 
-namespace App\Services;
+namespace App\Modules\Task\Services;
 
-use App\DTO\TaskDTO;
-use App\Models\Task;
-use App\Repositories\LabelRepository;
-use App\Repositories\TaskRepository;
-use App\Repositories\TaskStatusRepository;
+use App\DTO\TaskFilterDTO;
+use App\Modules\Base\Services\PageCounterService;
+use App\Modules\Label\Repositories\LabelRepository;
+use App\Modules\Task\DTO\TaskDTO;
+use App\Modules\Task\Models\Task;
+use App\Modules\Task\Repositories\TaskRepository;
+use App\Modules\TaskStatus\Repositories\TaskStatusRepository;
 use App\Repositories\UserRepository;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 
 class TaskService
@@ -16,7 +19,7 @@ class TaskService
         public TaskRepository $taskRepository,
         public TaskStatusRepository $taskStatusRepository,
         public UserRepository $userRepository,
-        public LabelRepository $labelRepository
+        public LabelRepository $labelRepository,
     ) {}
 
     public function create(TaskDTO $dto): void
@@ -56,13 +59,20 @@ class TaskService
     {
         $mapping = [
             'statuses' =>
-                fn() => $this->taskStatusRepository->getSelectParams(),
+                fn() => $this->taskStatusRepository->getNameIdPairs(),
             'users' =>
-                fn() => $this->userRepository->getSelectParams(),
+                fn() => $this->userRepository->getNameIdPairs(),
             'labels' =>
-                fn() => $this->labelRepository->getSelectParams()
+                fn() => $this->labelRepository->getNameIdPairs()
         ];
 
         return $mapping[$entity]();
+    }
+
+    public function getPaginationData(LengthAwarePaginator $tasks): ?array
+    {
+        $pageCounter = new PageCounterService($tasks);
+
+        return $pageCounter->getPaginationData();
     }
 }

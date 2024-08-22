@@ -2,14 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Models\Task;
-use App\Models\TaskStatus;
 use App\Models\User;
+use App\Modules\Task\Models\Task;
 use Database\Seeders\TaskSeeder;
 use Database\Seeders\TaskStatusSeeder;
 use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class TaskControllerTest extends TestCase

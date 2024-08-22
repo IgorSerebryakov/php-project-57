@@ -2,13 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\TaskStatus;
 use App\Models\User;
+use App\Modules\TaskStatus\Models\TaskStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Symfony\Component\Yaml\Yaml;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Task>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Modules\Task\Models\Task>
  */
 class TaskFactory extends Factory
 {

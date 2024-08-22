@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\DTO\LabelDTO;
 use App\Http\Requests\LabelRequest;
-use App\Models\Label;
-use App\Repositories\LabelRepository;
-use App\Services\LabelService;
-use Illuminate\Http\Request;
-use Spatie\DataTransferObject\Exceptions\UnknownProperties;
+use App\Modules\Label\DTO\LabelDTO;
+use App\Modules\Label\Models\Label;
+use App\Modules\Label\Repositories\LabelRepository;
+use App\Modules\Label\Services\LabelService;
 
 class LabelController extends Controller
 {

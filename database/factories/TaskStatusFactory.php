@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TaskStatus>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Modules\TaskStatus\Models\TaskStatus>
  */
 class TaskStatusFactory extends Factory
 {

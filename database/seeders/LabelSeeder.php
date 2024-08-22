@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Label;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Modules\Label\Models\Label;
 use Illuminate\Database\Seeder;
 use Symfony\Component\Yaml\Yaml;
 

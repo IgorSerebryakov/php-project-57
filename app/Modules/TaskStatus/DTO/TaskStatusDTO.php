@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTO;
+namespace App\Modules\TaskStatus\DTO;
 use Spatie\LaravelData\Data;
 
 class TaskStatusDTO extends Data

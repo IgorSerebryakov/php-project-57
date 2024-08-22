@@ -2,30 +2,56 @@
 
 namespace App\Http\Controllers;
 
-use App\DTO\TaskDTO;
+use App\DTO\TaskFilterDTO;
+use App\Helpers\PageCounter;
+use App\Http\Filters\TaskFilter;
+use App\Http\Requests\TaskFilterRequest;
 use App\Http\Requests\TaskRequest;
-use App\Models\Task;
-use App\Repositories\TaskRepository;
-use App\Services\TaskService;
-use Symfony\Component\HttpFoundation\Request;
+use App\Modules\Base\Services\PageCounterService;
+use App\Modules\Task\DTO\TaskDTO;
+use App\Modules\Task\Models\Task;
+use App\Modules\Task\Repositories\TaskRepository;
+use App\Modules\Task\Services\TaskService;
+use App\Modules\TaskStatus\Repositories\TaskStatusRepository;
+use App\Repositories\UserRepository;
+use Illuminate\Http\Request;
 
 
 class TaskController extends Controller
 {
     public function __construct(
         protected TaskRepository $taskRepository,
-        protected TaskService $service
+        protected TaskService $taskService,
+        protected UserRepository $userRepository,
+        protected TaskStatusRepository $taskStatusRepository
     ) {}
 
     public function index(Request $request)
     {
-        dd($request);
-        return view('task.index', [
-            'tasks' =>  $this->taskRepository->getAllWithFilter(),
-            'statuses' => $this->service->getSelectParams('statuses'),
-            'creators' => $this->taskRepository->getAllCreators(),
-            'assigners' => $this->taskRepository->getAllAssigners()
-        ]);
+        $filter = new TaskFilterDTO(
+            status_id: $request->get('filter')['status_id'] ?? null,
+            created_by_id: $request->get('filter')['created_by_id'] ?? null,
+            assigned_to_id: $request->get('filter')['assigned_to_id'] ?? null
+        );
+
+        $tasks = $this->taskRepository->getAllWithFilter();
+
+        $statuses = $this->taskStatusRepository->getTasksStatuses();
+        $creators = $this->userRepository->getTasksCreators();
+        $assigners = $this->userRepository->getTasksAssigners();
+
+
+        $pageCounter = new PageCounter($tasks);
+
+
+        return view('task.index', compact(
+            'tasks',
+            'statuses',
+            'creators',
+            'assigners',
+            'filter',
+            'pageCounter'
+        ));
     }
 
     public function show($id)
@@ -38,9 +64,9 @@ class TaskController extends Controller
     {
         return view('task.create', [
             'task' => new Task(),
-            'statuses' => $this->service->getSelectParams('statuses'),
-            'users' => $this->service->getSelectParams('users'),
-            'labels' => $this->service->getSelectParams('labels')
+            'statuses' => $this->taskService->getSelectParams('statuses'),
+            'users' => $this->taskService->getSelectParams('users'),
+            'labels' => $this->taskService->getSelectParams('labels')
         ]);
     }
 
@@ -55,7 +81,7 @@ class TaskController extends Controller
             label_id: $request->label_id
         );
 
-        $this->service->create($taskDTO);
+        $this->taskService->create($taskDTO);
 
         return redirect(route('tasks.index'));
     }
@@ -64,9 +90,9 @@ class TaskController extends Controller
     {
         return view('task.edit', [
             'task' => $this->taskRepository->getById($id),
-            'statuses' => $this->service->getSelectParams('statuses'),
-            'users' => $this->service->getSelectParams('users'),
-            'labels' => $this->service->getSelectParams('labels'),
+            'statuses' => $this->taskService->getSelectParams('statuses'),
+            'users' => $this->taskService->getSelectParams('users'),
+            'labels' => $this->taskService->getSelectParams('labels'),
             'taskLabels' => $this->taskRepository->getLabelIdsById($id)
         ]);
     }
@@ -82,7 +108,7 @@ class TaskController extends Controller
             label_id: $request->label_id
         );
 
-        $this->service->update($taskDTO);
+        $this->taskService->update($taskDTO);
 
         return redirect()->route('tasks.index');
     }
@@ -91,7 +117,7 @@ class TaskController extends Controller
     {
         $task = Task::query()->findOrFail($id);
 
-        $this->service->destroy($task);
+        $this->taskService->destroy($task);
 
         return redirect()->route('tasks.index');
     }

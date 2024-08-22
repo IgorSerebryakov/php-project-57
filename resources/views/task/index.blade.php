@@ -8,26 +8,29 @@
                 <div class="w-full flex items-center">
                     {{ html()->modelForm($tasks, 'GET', route('tasks.index'))->open() }}
                     <div class="flex text-black">
-                        {{ html()->select('filter[status_id]', ['' => 'Статус'] + $statuses, old('status_id')) }}
-                        {{ html()->select('filter[created_by_id]', ['' => 'Автор'] + $creators) }}
-                        {{ html()->select('filter[assigned_to_id]', ['' => 'Исполнитель'] + $assigners) }}
+                        {{ html()->select('filter[status_id]', ['' => 'Статус'] + $statuses, $filter->status_id) }}
+                        {{ html()->select('filter[created_by_id]', ['' => 'Автор'] + $creators, $filter->created_by_id) }}
+                        {{ html()->select('filter[assigned_to_id]', ['' => 'Исполнитель'] + $assigners, $filter->assigned_to_id) }}
                         <div class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded">
                             {{ html()->submit('Применить') }}
                             {{ html()->closeModelForm() }}
                         </div>
+                    </div>
+                    <div class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded">
+                        <a href="{{ route('tasks.create') }}">{{ html()->submit('Применить') }}</a>
                     </div>
                 </div>
                 <table class="table mt-4 w-full rounded-lg shadow-md dark:bg-gray-900">
                     <thead>
                     <tr>
                         @foreach (['ID', 'Статус', 'Имя', 'Автор', 'Исполнитель', 'Дата создания', 'Действия'] as $header)
-                            <th class="border-b border-black p-2 text-left">{{ $header }}</th>
+                            <th class="border-b border-black p-2 text-white">{{ $header }}</th>
                         @endforeach
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($tasks as $task)
-                        <tr class="border-b dark:hover:bg-gray-700">
+                        <tr class="border-b dark:hover:bg-gray-700 text-white">
                             <td class="p-2">{{ $task->id }}</td>
                             <td class="p-2">{{ $task->status->name }}</td>
                             <td class="p-2">
@@ -52,7 +55,6 @@
             </div>
         </div>
     </section>
-    @dd(old($statuses[1]))
 @endsection
 
 

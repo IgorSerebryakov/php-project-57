@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Modules\TaskStatus\Models;
 
+use App\Modules\Task\Models\Task;
+use Illuminate\Database\Eloquent\Events\Deleting;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Events\Deleting;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TaskStatus extends Model

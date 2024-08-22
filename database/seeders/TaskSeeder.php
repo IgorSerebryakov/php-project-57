@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Label;
-use App\Models\Task;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Modules\Label\Models\Label;
+use App\Modules\Task\Models\Task;
 use Illuminate\Database\Seeder;
 use Symfony\Component\Yaml\Yaml;
 

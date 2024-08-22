@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace App\Modules\TaskStatus\Services;
 
-use App\DTO\TaskStatusDTO;
-use App\Models\TaskStatus;
-use App\Repositories\TaskRepository;
-use App\Repositories\TaskStatusRepository;
+use App\Modules\Task\Repositories\TaskRepository;
+use App\Modules\TaskStatus\DTO\TaskStatusDTO;
+use App\Modules\TaskStatus\Models\TaskStatus;
+use App\Modules\TaskStatus\Repositories\TaskStatusRepository;
 
 class TaskStatusService
 {

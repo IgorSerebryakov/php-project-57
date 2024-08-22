@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TaskStatusRequest;
-use App\Models\TaskStatus;
-use App\Repositories\TaskStatusRepository;
-use App\Services\TaskStatusService;
-use App\DTO\TaskStatusDTO;
+use App\Modules\TaskStatus\DTO\TaskStatusDTO;
+use App\Modules\TaskStatus\Models\TaskStatus;
+use App\Modules\TaskStatus\Repositories\TaskStatusRepository;
+use App\Modules\TaskStatus\Services\TaskStatusService;
 
 class TaskStatusController extends Controller
 {

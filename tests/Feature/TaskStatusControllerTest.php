@@ -2,18 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Models\TaskStatus;
 use App\Models\User;
-use App\Models\Task;
-use Database\Factories\TaskFactory;
-use Database\Seeders\TaskSeeder;
-use Database\Seeders\TaskStatusSeeder;
-use Database\Seeders\UserSeeder;
+use App\Modules\Task\Models\Task;
+use App\Modules\TaskStatus\Models\TaskStatus;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Laracasts\Flash\FlashNotifier;
 use Tests\TestCase;
 
 class TaskStatusControllerTest extends TestCase

@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace App\Modules\Task\Models;
 
-use http\Exception\BadConversionException;
+use App\Models\User;
+use App\Modules\Label\Models\Label;
+use App\Modules\TaskStatus\Models\TaskStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Task extends Model
 {

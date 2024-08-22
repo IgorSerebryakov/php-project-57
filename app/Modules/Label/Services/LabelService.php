@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Modules\Label\Services;
 
-use App\DTO\LabelDTO;
-use App\Models\Label;
-use App\Repositories\LabelRepository;
+use App\Modules\Label\DTO\LabelDTO;
+use App\Modules\Label\Models\Label;
+use App\Modules\Label\Repositories\LabelRepository;
 
 class LabelService
 {
