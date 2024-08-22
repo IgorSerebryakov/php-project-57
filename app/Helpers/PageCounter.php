@@ -15,13 +15,13 @@ class PageCounter
         return $this->paginator->total();
     }
 
-    private function getLeftBorder(): ?int
+    public function getLeftBorder(): ?int
     {
         $counter = $this->paginator->currentPage() - 1;
         return 1 + $this->paginator->perPage() * $counter;
     }
 
-    private function getRightBorder(): ?int
+    public function getRightBorder(): ?int
     {
         switch (true) {
             case $this->paginator->currentPage() == $this->paginator->lastPage():

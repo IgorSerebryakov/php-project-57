@@ -16,30 +16,30 @@
                             {{ html()->closeModelForm() }}
                         </div>
                     </div>
-                    <div class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded">
-                        <a href="{{ route('tasks.create') }}">{{ html()->submit('Применить') }}</a>
+                    <div class="ml-auto">
+                        <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded" href="{{ route('tasks.create') }}">Создать задачу</a>
                     </div>
                 </div>
                 <table class="table mt-4 w-full rounded-lg shadow-md dark:bg-gray-900">
                     <thead>
                     <tr>
                         @foreach (['ID', 'Статус', 'Имя', 'Автор', 'Исполнитель', 'Дата создания', 'Действия'] as $header)
-                            <th class="border-b border-black p-2 text-white">{{ $header }}</th>
+                            <th class="border-b border-black text-white">{{ $header }}</th>
                         @endforeach
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($tasks as $task)
                         <tr class="border-b dark:hover:bg-gray-700 text-white">
-                            <td class="p-2">{{ $task->id }}</td>
-                            <td class="p-2">{{ $task->status->name }}</td>
-                            <td class="p-2">
+                            <td>{{ $task->id }}</td>
+                            <td>{{ $task->status->name }}</td>
+                            <td>
                                 <a href="{{ route('tasks.show', $task->id) }}">{{ $task->name }}</a>
                             </td>
-                            <td class="p-2">{{ $task->creator->name }}</td>
-                            <td class="p-2">{{ $task->executor->name }}</td>
-                            <td class="p-2">{{ $task->created_at->format('d.m.Y H:i') }}</td>
-                            <td class="p-2">
+                            <td>{{ $task->creator->name }}</td>
+                            <td>{{ $task->executor->name }}</td>
+                            <td>{{ $task->created_at->format('d.m.Y H:i') }}</td>
+                            <td>
                                 <a href="{{ route('tasks.edit', $task->id) }}">Изменить</a>
                             </td>
                         </tr>
@@ -47,11 +47,22 @@
                     </tbody>
                 </table>
 
-                <nav aria-label="Пример навигации по страницам">
-                    <ul class="pagination">
-                        {!! $tasks->withQueryString()->links('pagination::bootstrap-4') !!}
-                    </ul>
-                </nav>
+                <div class="w-full flex items-center justify-between" role="navigation" aria-label="Pagination Navigation">
+                    <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                        <p class="tex-sm text-gray-700 leading-5 dark:text-gray-400">
+                            Showing
+                            <span class="font-medium">{{ $pageCounter->getLeftBorder() }}</span>
+                            to
+                            <span class="font-medium">{{ $pageCounter->getRightBorder() }}</span>
+                            of
+                            <span class="font-medium">{{ $pageCounter->getTotal() }}</span>
+                            Results
+                        </p>
+                        <span class="relative z-0 inline-flex rtl:flex-row-reverse shadow-sm rounded-md">
+                            {!! $tasks->withQueryString()->links('pagination::bootstrap-4') !!}
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
