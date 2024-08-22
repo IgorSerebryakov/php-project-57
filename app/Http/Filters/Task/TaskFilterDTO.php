@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTO;
+namespace App\Http\Filters\Task;
 
 use Spatie\LaravelData\Data;
 

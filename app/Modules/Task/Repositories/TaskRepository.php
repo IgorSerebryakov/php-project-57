@@ -30,7 +30,7 @@ class TaskRepository extends BaseRepository
             ->toArray();
     }
 
-    public function getAllWithFilter()
+    public function getFiltered()
     {
         return QueryBuilder::for(Task::class)
             ->allowedFilters([

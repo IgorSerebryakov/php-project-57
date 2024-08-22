@@ -2,7 +2,6 @@
 
 namespace App\Modules\Task\Services;
 
-use App\DTO\TaskFilterDTO;
 use App\Modules\Base\Services\PageCounterService;
 use App\Modules\Label\Repositories\LabelRepository;
 use App\Modules\Task\DTO\TaskDTO;
@@ -67,12 +66,5 @@ class TaskService
         ];
 
         return $mapping[$entity]();
-    }
-
-    public function getPaginationData(LengthAwarePaginator $tasks): ?array
-    {
-        $pageCounter = new PageCounterService($tasks);
-
-        return $pageCounter->getPaginationData();
     }
 }

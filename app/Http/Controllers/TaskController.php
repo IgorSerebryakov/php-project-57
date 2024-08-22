@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\DTO\TaskFilterDTO;
 use App\Helpers\PageCounter;
-use App\Http\Filters\TaskFilter;
-use App\Http\Requests\TaskFilterRequest;
+use App\Http\Filters\Task\TaskFilterDTO;
 use App\Http\Requests\TaskRequest;
-use App\Modules\Base\Services\PageCounterService;
+use App\Modules\Label\Repositories\LabelRepository;
 use App\Modules\Task\DTO\TaskDTO;
 use App\Modules\Task\Models\Task;
 use App\Modules\Task\Repositories\TaskRepository;
@@ -23,7 +21,8 @@ class TaskController extends Controller
         protected TaskRepository $taskRepository,
         protected TaskService $taskService,
         protected UserRepository $userRepository,
-        protected TaskStatusRepository $taskStatusRepository
+        protected TaskStatusRepository $taskStatusRepository,
+        protected LabelRepository $labelRepository
     ) {}
 
     public function index(Request $request)
@@ -34,7 +33,7 @@ class TaskController extends Controller
             assigned_to_id: $request->get('filter')['assigned_to_id'] ?? null
         );
 
-        $tasks = $this->taskRepository->getAllWithFilter();
+        $tasks = $this->taskRepository->getFiltered();
 
         $statuses = $this->taskStatusRepository->getTasksStatuses();
         $creators = $this->userRepository->getTasksCreators();
@@ -90,9 +89,9 @@ class TaskController extends Controller
     {
         return view('task.edit', [
             'task' => $this->taskRepository->getById($id),
-            'statuses' => $this->taskService->getSelectParams('statuses'),
-            'users' => $this->taskService->getSelectParams('users'),
-            'labels' => $this->taskService->getSelectParams('labels'),
+            'statuses' => $this->taskStatusRepository->getNameIdPairs(),
+            'users' => $this->userRepository->getNameIdPairs(),
+            'labels' => $this->labelRepository->getNameIdPairs(),
             'taskLabels' => $this->taskRepository->getLabelIdsById($id)
         ]);
     }
@@ -115,7 +114,7 @@ class TaskController extends Controller
 
     public function destroy($id)
     {
-        $task = Task::query()->findOrFail($id);
+        $task = $this->taskRepository->getById($id);
 
         $this->taskService->destroy($task);
 
