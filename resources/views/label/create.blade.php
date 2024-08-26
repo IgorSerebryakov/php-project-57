@@ -4,7 +4,7 @@
     <section class="bg-black dark:bg-gray-900">
         <div class="grid max-w-screen-xl px-4 pt-20 pb-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-8 lg:pt-28">
             <div class="grid col-span-full text-white">
-                <p class="h1 mb-4">Создать статус</p>
+                <p class="h1 mb-4">Создать метку</p>
                 <div>
                     {{ html()->modelForm($label, 'POST', route('labels.store'))->open() }}
                     <div class="flex flex-col">
