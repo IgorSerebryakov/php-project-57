@@ -20,13 +20,26 @@
                         <div class="mt-2 mb-2">
                             {{ html()->textarea('description')->class('rounded border-gray-300 w-1/3 h-32 text-black') }}
                         </div>
-                        {{ html()->select('status_id', $statuses) }}
-                        {{ html()->select('assigned_to_id', ['' => ''] + $users) }}
-                        @foreach ($labels as $id => $label)
-                            {{ html()->checkbox('label_id[]', false, $id) }}
-                            {{ $label }}
-                        @endforeach
-                        {{ html()->submit('Создать') }}
+                        <div>
+                            {{ html()->label('Статус', 'status_id') }}
+                        </div>
+                        <div class="mt-2 mb-2">
+                            {{ html()->select('status_id', $statuses)->class('rounded border-gray-300 w-1/3 text-black') }}
+                        </div>
+                        <div>
+                            {{ html()->label('Исполнитель', 'assigned_to_id') }}
+                        </div>
+                        <div class="mt-2 mb-2">
+                            {{ html()->select('assigned_to_id', ['' => ''] + $users)->class('rounded border-gray-300 w-1/3 text-black') }}
+                        </div>
+                        <div>
+                            {{ html()->label('Метки', 'labels[]') }}
+                        </div>
+                        <div>
+                            {{ html()->select('labels[]', $labels)->multiple()->class('rounded border-gray-300 w-1/3 text-black') }}
+                        </div>
+                    </div>
+                        {{ html()->submit('Создать')->class("bg-blue-500 hover:bg-blue-700 text-white ml-left font-bold py-2 px-3 rounded mt-3") }}
                         {{ html()->closeModelForm() }}
                         @if ($errors->any())
                             <div class="text-red-600">
